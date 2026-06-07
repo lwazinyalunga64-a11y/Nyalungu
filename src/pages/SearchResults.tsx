@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { Plane, Shield, Filter, ChevronRight, ExternalLink } from 'lucide-react';
 import { FLIGHTS } from '../data';
+import { trackClick, buildPartnerUrl } from '../utils/affiliate';
 
 const SearchResults: React.FC = () => {
   const location = useLocation();
@@ -30,6 +31,18 @@ const SearchResults: React.FC = () => {
 
     return results;
   }, [toParam, maxPrice, sortOrder]);
+
+  const handleBookNow = (partner: 'skyscannerId' | 'expediaId' | 'kayakId') => {
+    const dummyUrls = {
+      skyscannerId: 'https://www.skyscanner.net/transport/flights/search',
+      expediaId: 'https://www.expedia.com/Flights-Search',
+      kayakId: 'https://www.kayak.com/flights'
+    };
+    
+    trackClick(partner);
+    const finalUrl = buildPartnerUrl(dummyUrls[partner], partner);
+    window.open(finalUrl, '_blank');
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen py-8 px-4">
@@ -135,10 +148,19 @@ const SearchResults: React.FC = () => {
                   <div className="bg-gray-50 p-6 flex flex-col justify-center border-t md:border-t-0 md:border-l w-full md:w-48 text-center">
                     <p className="text-sm text-gray-500 mb-1">Total price</p>
                     <p className="text-3xl font-extrabold text-gray-900 mb-4">${flight.price}</p>
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition">
+                    <button 
+                      onClick={() => handleBookNow('skyscannerId')}
+                      className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition mb-2"
+                    >
                       Book Now <ExternalLink className="h-4 w-4" />
                     </button>
-                    <p className="text-[10px] text-gray-400 mt-2 italic">via Skyscanner Affiliate</p>
+                    <button 
+                      onClick={() => handleBookNow('expediaId')}
+                      className="text-[11px] text-blue-600 hover:underline font-medium"
+                    >
+                      View on Expedia
+                    </button>
+                    <p className="text-[10px] text-gray-400 mt-2 italic">via Partner Affiliate</p>
                   </div>
                 </div>
               ))

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Mail, Globe, Send } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   return (
@@ -36,6 +37,9 @@ const Footer: React.FC = () => {
               <li>Privacy Policy</li>
               <li>Terms of Service</li>
               <li>Contact</li>
+              <li className="pt-2 border-t border-gray-800">
+                <Link to="/admin" className="text-gray-500 hover:text-gray-400">Partner Admin</Link>
+              </li>
             </ul>
           </div>
         </div>

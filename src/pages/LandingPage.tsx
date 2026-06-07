@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, MapPin, Bell, Send, CheckCircle } from 'lucide-react';
 import { DEALS, HOST_CITIES } from '../data';
+import { trackClick, buildPartnerUrl } from '../utils/affiliate';
 
 const LandingPage: React.FC = () => {
   const [from, setFrom] = useState('');
@@ -20,6 +21,22 @@ const LandingPage: React.FC = () => {
     if (email) {
       setSubscribed(true);
       setEmail('');
+    }
+  };
+
+  const handleViewFlights = (deal: typeof DEALS[0]) => {
+    if (deal.partner) {
+      const dummyUrls = {
+        skyscannerId: 'https://www.skyscanner.net/transport/flights/search',
+        expediaId: 'https://www.expedia.com/Flights-Search',
+        kayakId: 'https://www.kayak.com/flights'
+      };
+      
+      trackClick(deal.partner);
+      const finalUrl = buildPartnerUrl(dummyUrls[deal.partner], deal.partner);
+      window.open(finalUrl, '_blank');
+    } else {
+      navigate(`/search?to=${deal.to}`);
     }
   };
 
@@ -106,7 +123,7 @@ const LandingPage: React.FC = () => {
                     <span className="text-gray-500 text-sm">Round trip</span>
                   </div>
                   <button 
-                    onClick={() => navigate(`/search?to=${deal.to}`)}
+                    onClick={() => handleViewFlights(deal)}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg transition"
                   >
                     View Flights

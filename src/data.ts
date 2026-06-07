@@ -59,21 +59,24 @@ export const DEALS: Deal[] = [
     to: 'Miami',
     price: 320,
     image: 'https://images.unsplash.com/photo-1514214246283-d427a95c5d2f?auto=format&fit=crop&w=800&q=80',
-    discount: '25% OFF'
+    discount: '25% OFF',
+    partner: 'skyscannerId'
   },
   {
     id: '2',
     to: 'Los Angeles',
     price: 450,
     image: 'https://images.unsplash.com/photo-1444723121867-7a241cacace9?auto=format&fit=crop&w=800&q=80',
-    discount: 'Flash Deal'
+    discount: 'Flash Deal',
+    partner: 'expediaId'
   },
   {
     id: '3',
     to: 'New York',
     price: 380,
     image: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=800&q=80',
-    discount: 'Early Bird'
+    discount: 'Early Bird',
+    partner: 'kayakId'
   }
 ];
 
