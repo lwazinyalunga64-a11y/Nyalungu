@@ -15,4 +15,5 @@ export interface Deal {
   price: number;
   image: string;
   discount: string;
+  partner?: 'skyscannerId' | 'expediaId' | 'kayakId';
 }
