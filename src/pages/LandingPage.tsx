@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { Search, MapPin, Bell, Send, CheckCircle } from 'lucide-react';
 import { DEALS, HOST_CITIES } from '../data';
 import { trackClick, buildPartnerUrl } from '../utils/affiliate';
+import { addSubscriber, validateEmail } from '../utils/subscribers';
 
 const LandingPage: React.FC = () => {
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   const navigate = useNavigate();
 
@@ -18,9 +20,24 @@ const LandingPage: React.FC = () => {
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
+    setError('');
+    
+    if (!email) {
+      setError('Please enter an email address');
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
+    const success = addSubscriber(email);
+    if (success) {
       setSubscribed(true);
       setEmail('');
+    } else {
+      setError('Failed to subscribe. Please try again.');
     }
   };
 
@@ -145,23 +162,26 @@ const LandingPage: React.FC = () => {
           </p>
 
           {!subscribed ? (
-            <form onSubmit={handleSubscribe} className="flex flex-col md:flex-row gap-4 max-w-lg mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email address"
-                className="flex-1 px-4 py-3 rounded-lg text-gray-800 focus:ring-4 focus:ring-yellow-400 outline-none"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <button
-                type="submit"
-                className="bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-bold py-3 px-8 rounded-lg shadow-lg transition flex items-center justify-center gap-2"
-              >
-                <Send className="h-5 w-5" />
-                Alert Me!
-              </button>
-            </form>
+            <div className="max-w-lg mx-auto">
+              <form onSubmit={handleSubscribe} className="flex flex-col md:flex-row gap-4 mb-2">
+                <input
+                  type="email"
+                  placeholder="Enter your email address"
+                  className="flex-1 px-4 py-3 rounded-lg text-gray-800 focus:ring-4 focus:ring-yellow-400 outline-none"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <button
+                  type="submit"
+                  className="bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-bold py-3 px-8 rounded-lg shadow-lg transition flex items-center justify-center gap-2"
+                >
+                  <Send className="h-5 w-5" />
+                  Alert Me!
+                </button>
+              </form>
+              {error && <p className="text-red-400 text-sm font-semibold">{error}</p>}
+            </div>
           ) : (
             <div className="bg-green-600 text-white p-6 rounded-xl flex items-center justify-center gap-4 animate-fade-in max-w-lg mx-auto">
               <CheckCircle className="h-8 w-8" />

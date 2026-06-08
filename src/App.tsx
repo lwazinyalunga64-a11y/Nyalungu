@@ -6,6 +6,7 @@ import SearchResults from './pages/SearchResults';
 import AboutPage from './pages/AboutPage';
 import PremiumPage from './pages/PremiumPage';
 import AdminDashboard from './pages/AdminDashboard';
+import SubscribersPage from './pages/SubscribersPage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/about" element={<AboutPage />} />
             <Route path="/premium" element={<PremiumPage />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/subscribers" element={<SubscribersPage />} />
           </Routes>
         </main>
         <Footer />
