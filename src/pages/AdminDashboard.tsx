@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { getAffiliateConfig, saveAffiliateConfig, getStats } from '../utils/affiliate';
+import { Users } from 'lucide-react';
 import type { AffiliateConfig, Stats } from '../utils/affiliate';
 
 const AdminDashboard: React.FC = () => {
@@ -34,9 +36,18 @@ const AdminDashboard: React.FC = () => {
     <div className="max-w-6xl mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <h1 className="text-3xl font-bold text-blue-900">Partner Admin Dashboard</h1>
-        <div className="bg-green-100 border border-green-400 text-green-700 px-6 py-3 rounded-lg flex items-center gap-3">
-          <span className="text-sm font-medium uppercase tracking-wider">Money Pocket:</span>
-          <span className="text-2xl font-bold">${stats.totalEarnings.toFixed(2)}</span>
+        <div className="flex items-center gap-4 w-full md:w-auto">
+          <Link 
+            to="/subscribers" 
+            className="flex items-center gap-2 bg-white border border-blue-200 text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-50 transition font-medium"
+          >
+            <Users className="h-5 w-5" />
+            View Subscribers
+          </Link>
+          <div className="bg-green-100 border border-green-400 text-green-700 px-6 py-3 rounded-lg flex items-center gap-3">
+            <span className="text-sm font-medium uppercase tracking-wider">Money Pocket:</span>
+            <span className="text-2xl font-bold">${stats.totalEarnings.toFixed(2)}</span>
+          </div>
         </div>
       </div>
 
