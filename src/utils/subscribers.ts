@@ -45,8 +45,8 @@ export const downloadSubscribersCsv = () => {
   const rows = subscribers.map(s => [s.id, s.email, s.subscribedAt]);
   
   const csvContent = [
-    headers.join(','),
-    ...rows.map(row => row.join(','))
+    headers.map(h => `"${h}"`).join(','),
+    ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
   ].join('\n');
 
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });

@@ -36,6 +36,16 @@ const LandingPage: React.FC = () => {
     if (success) {
       setSubscribed(true);
       setEmail('');
+      
+      // Try to sync with local backend if available (e.g. during development)
+      fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      }).catch(() => {
+        // Silently fail if API is not available (e.g. in production static build)
+        console.log('Local sync not available');
+      });
     } else {
       setError('Failed to subscribe. Please try again.');
     }
