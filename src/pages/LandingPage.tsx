@@ -125,42 +125,44 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Flash Deals Section */}
-      <section className="py-16 px-4 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-10">
-            <h2 className="text-3xl font-bold text-gray-900">Current Flash Deals</h2>
-            <button className="text-blue-600 font-semibold hover:underline">View all deals</button>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {DEALS.map((deal) => (
-              <div key={deal.id} className="bg-white rounded-xl shadow-lg overflow-hidden transition transform hover:-translate-y-2">
-                <div className="relative h-48">
-                  <img src={deal.image} alt={deal.to} className="w-full h-full object-cover" />
-                  <div className="absolute top-4 left-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold shadow-md">
-                    {deal.discount}
+      {/* Flash Deals Section (Hidden when no deals) */}
+      {DEALS.length > 0 && (
+        <section className="py-16 px-4 bg-gray-50">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-center justify-between mb-10">
+              <h2 className="text-3xl font-bold text-gray-900">Current Flash Deals</h2>
+              <button className="text-blue-600 font-semibold hover:underline">View all deals</button>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {DEALS.map((deal) => (
+                <div key={deal.id} className="bg-white rounded-xl shadow-lg overflow-hidden transition transform hover:-translate-y-2">
+                  <div className="relative h-48">
+                    <img src={deal.image} alt={deal.to} className="w-full h-full object-cover" />
+                    <div className="absolute top-4 left-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold shadow-md">
+                      {deal.discount}
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold mb-2">To {deal.to}</h3>
+                    <div className="flex items-baseline gap-2 mb-4">
+                      <span className="text-gray-500 line-through text-sm">Was $550</span>
+                      <span className="text-3xl font-extrabold text-blue-600">${deal.price}</span>
+                      <span className="text-gray-500 text-sm">Round trip</span>
+                    </div>
+                    <button 
+                      onClick={() => handleViewFlights(deal)}
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg transition"
+                    >
+                      View Flights
+                    </button>
                   </div>
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">To {deal.to}</h3>
-                  <div className="flex items-baseline gap-2 mb-4">
-                    <span className="text-gray-500 line-through text-sm">Was $550</span>
-                    <span className="text-3xl font-extrabold text-blue-600">${deal.price}</span>
-                    <span className="text-gray-500 text-sm">Round trip</span>
-                  </div>
-                  <button 
-                    onClick={() => handleViewFlights(deal)}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg transition"
-                  >
-                    View Flights
-                  </button>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Deal Alerts Signup */}
       <section className="py-20 px-4 bg-blue-900 text-white">

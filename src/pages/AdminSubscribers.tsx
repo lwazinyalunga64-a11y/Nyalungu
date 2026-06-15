@@ -65,7 +65,8 @@ const SubscribersPage: React.FC = () => {
           <table className="w-full text-left">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-4 font-semibold text-gray-600">Email Address</th>
+                <th className="px-6 py-4 font-semibold text-gray-600">Subscriber</th>
+                <th className="px-6 py-4 font-semibold text-gray-600">Source</th>
                 <th className="px-6 py-4 font-semibold text-gray-600">Date Joined</th>
                 <th className="px-6 py-4 font-semibold text-gray-600 text-right">Actions</th>
               </tr>
@@ -79,10 +80,22 @@ const SubscribersPage: React.FC = () => {
                         <div className="bg-blue-100 p-2 rounded-full text-blue-600">
                           <Mail className="h-4 w-4" />
                         </div>
-                        <span className="font-medium text-gray-800">{subscriber.email}</span>
+                        <div>
+                          <div className="font-medium text-gray-800">{subscriber.email}</div>
+                          {subscriber.name && <div className="text-sm text-gray-500">{subscriber.name}</div>}
+                        </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-gray-500">
+                    <td className="px-6 py-4">
+                      <span className={`text-xs font-bold px-2 py-1 rounded-full ${
+                        subscriber.source === 'premium-waitlist' 
+                          ? 'bg-yellow-100 text-yellow-800' 
+                          : 'bg-green-100 text-green-800'
+                      }`}>
+                        {subscriber.source === 'premium-waitlist' ? 'Premium Waitlist' : 'Newsletter'}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-gray-500 text-sm">
                       {new Date(subscriber.subscribedAt).toLocaleString()}
                     </td>
                     <td className="px-6 py-4 text-right">
@@ -98,7 +111,7 @@ const SubscribersPage: React.FC = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={3} className="px-6 py-12 text-center text-gray-400 italic">
+                  <td colSpan={4} className="px-6 py-12 text-center text-gray-400 italic">
                     No subscribers yet. Start marketing!
                   </td>
                 </tr>

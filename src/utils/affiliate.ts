@@ -13,7 +13,7 @@ export interface Stats {
 }
 
 const DEFAULT_CONFIG: AffiliateConfig = {
-  skyscannerId: 'goalgetaway-sky',
+  skyscannerId: '7386331',
   expediaId: 'goalgetaway-exp',
   kayakId: 'goalgetaway-kayak',
 };
@@ -59,7 +59,11 @@ export const buildPartnerUrl = (baseUrl: string, partner: keyof AffiliateConfig)
   const affiliateId = config[partner];
   
   const url = new URL(baseUrl);
-  url.searchParams.append('aid', affiliateId);
+  if (partner === 'skyscannerId') {
+    url.searchParams.append('associateId', affiliateId);
+  } else {
+    url.searchParams.append('aid', affiliateId);
+  }
   url.searchParams.append('utm_source', 'goalgetaway');
   
   return url.toString();

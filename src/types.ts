@@ -21,5 +21,7 @@ export interface Deal {
 export interface Subscriber {
   id: string;
   email: string;
+  name?: string;
+  source?: 'newsletter' | 'premium-waitlist';
   subscribedAt: string;
 }

@@ -13,17 +13,19 @@ export const getSubscribers = (): Subscriber[] => {
   }
 };
 
-export const addSubscriber = (email: string): boolean => {
+export const addSubscriber = (email: string, name?: string, source: 'newsletter' | 'premium-waitlist' = 'newsletter'): boolean => {
   const subscribers = getSubscribers();
   
-  // Check if already exists
-  if (subscribers.some(s => s.email.toLowerCase() === email.toLowerCase())) {
-    return true; // Treat as success if already subscribed
+  // Check if already exists with same source
+  if (subscribers.some(s => s.email.toLowerCase() === email.toLowerCase() && s.source === source)) {
+    return true; // Treat as success if already subscribed to this list
   }
 
   const newSubscriber: Subscriber = {
     id: Math.random().toString(36).substring(2, 9),
     email,
+    name,
+    source,
     subscribedAt: new Date().toISOString()
   };
 
@@ -41,8 +43,8 @@ export const downloadSubscribersCsv = () => {
   const subscribers = getSubscribers();
   if (subscribers.length === 0) return;
 
-  const headers = ['ID', 'Email', 'Subscribed At'];
-  const rows = subscribers.map(s => [s.id, s.email, s.subscribedAt]);
+  const headers = ['ID', 'Email', 'Name', 'Source', 'Subscribed At'];
+  const rows = subscribers.map(s => [s.id, s.email, s.name || '', s.source || 'newsletter', s.subscribedAt]);
   
   const csvContent = [
     headers.map(h => `"${h}"`).join(','),
